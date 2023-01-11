@@ -127,4 +127,10 @@ public class User {
                 ", roles=" + roles +
                 '}';
     }
+
+    @Transient
+    public String getPhotosImagePath(){
+        if(id == null || photos == null) return "/assets/img/user/profile-thumbnail.png";
+        return "/user-photos/" + this.id + "/" + this.photos;
+    }
 }

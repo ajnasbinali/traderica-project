@@ -1,7 +1,9 @@
 <form th:action="@{/users/save}" method="post"
+        enctype="multipart/form-data"
         th:object="${user}" onsubmit= "return checkEmailUnique(this);">
+  <input type="hidden" th:field ="*{id}" />
   <div class="modal-header px-4">
-    <h5 class="modal-title" id="exampleModalCenterTitle">Add New User</h5>
+    <h5 class="modal-title" id="exampleModalCenterTitle">[[${pageTitle}]]</h5>
   </div>
 
   <div class="modal-body px-4">
@@ -11,15 +13,21 @@
 
       <div class="col-sm-8 col-lg-10">
         <div class="custom-file mb-1">
-          <input type="file" class="custom-file-input" id="coverImage"
-                 required>
+          <input type="hidden" th:field="*{photos}">
+          <input type="file" class="custom-file-input" name="image" id="coverImage"
+                accept="image/png, image/jpeg" >
           <label class="custom-file-label" for="coverImage">Choose
             file...</label>
           <div class="invalid-feedback">Example invalid custom file feedback
           </div>
+
         </div>
       </div>
     </div>
+    <div class="d-flex justify-content-center mb-2">
+      <img id="profilethumb" class="img-thumbnail col-md-4" th:src="@{${user.photosImagePath}}">
+    </div>
+    <div id="file-size-error" class="d-none text-center"><small id = "file-size-error-message" style="color: #ff0000"></small></div>
 
     <div class="row mb-2">
       <div class="col-lg-6">
@@ -42,13 +50,17 @@
         <div class="form-group mb-4">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" th:field="*{email}">
+          <div id="email-check-duplicate" class="d-none"><small id = "email-check-message" style="color: #ff0000"></small></div>
         </div>
       </div>
+
+
 
       <div class="col-lg-6">
         <div class="form-group mb-4">
           <label for="Birthday">Password</label>
-          <input type="password" class="form-control"th:field="*{password}" required minlength =8 maxlength=20 id="Birthday">
+          <input th:if="${user.id == null}" type="password" class="form-control"th:field="*{password}" required minlength =8 maxlength=20 id="Birthday">
+          <input th:if="${user.id != null}" type="password" class="form-control"th:field="*{password}"  minlength =8 maxlength=20 id="Birthday">
         </div>
       </div>
       <div class="col-lg-6">
@@ -87,15 +99,46 @@
 
 
 </form>
-<!--<script>-->
-<!--  function checkEmailUnique(form){-->
-<!--    url = "[[@{/users/check_email}]]";-->
-<!--    userEmail = $("#email").val();-->
-<!--    csrfValue = $("input[name='_csrf']").val();-->
-<!--    params = {email: userEmail, _csrf: csrfValue};-->
-<!--    $.post(url, params, function (response){-->
-<!--      alert("response form server: "+response);-->
-<!--    }-->
-<!--    return false;-->
-<!--  }-->
-<!--</script>-->
+<script>
+  function checkEmailUnique(form){
+    url = "[[@{/users/check_email}]]";
+    userEmail = $("#email").val();
+    userId = $("#id").val();
+    csrfValue = $("input[name='_csrf']").val();
+    params = {id: userId, email: userEmail, _csrf: csrfValue};
+    $.post(url, params, function (response){
+      if (response == "OK"){
+        form.submit();
+      }else if (response == "Duplicated"){
+        $("#email-check-duplicate").removeClass("d-none")
+        $("#email-check-message").text("This email is already taken : "+ userEmail)
+        //alert("Already have a account with the email "+userEmail);
+      }
+
+    });
+    return false;
+  }
+  $(document).ready(function (){
+    $("#coverImage").change(function (){
+      fileSize = this.files[0].size;
+      if (fileSize > 1048576){
+        $("#file-size-error").removeClass("d-none")
+        $("#file-size-error-message").text("You must choose a Image less than 1MB!")
+
+      }else{
+        showImageThumbline(this);
+      }
+
+    });
+  });
+
+  function showImageThumbline(fileInput){
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+      reader.onload = function (e){
+        $("#profilethumb").attr("src",e.target.result);
+
+      };
+      reader.readAsDataURL(file);
+  }
+</script>

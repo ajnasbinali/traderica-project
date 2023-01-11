@@ -2,6 +2,7 @@ package com.traderica.admin.user;
 
 import com.traderica.common.entity.Role;
 import com.traderica.common.entity.User;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -64,8 +65,8 @@ public class UserRepositoryTests {
 
     @Test
     public void testUpdateUserDetails(){
-        User userAj = repo.findById(1).get();
-        userAj.setEnabled(true);
+        User userAj = repo.findById(4).get();
+        userAj.setEnabled(false);
         repo.save(userAj);
 
     }
@@ -76,5 +77,19 @@ public class UserRepositoryTests {
         User user = repo.getUserByEmail(email);
 
         assertThat(user).isNotNull();
+    }
+
+    @Test
+    public void testCountCyId(){
+        Integer id =2;
+        Long countById = repo.countById(id);
+        assertThat(countById).isNotNull().isGreaterThan(0);
+    }
+
+    @Test
+    public void testDisableUser(){
+        Integer id = 15;
+        repo.updateEnabledStatues(id,false);
+
     }
 }
