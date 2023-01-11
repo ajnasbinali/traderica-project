@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/TradeRica.iml" filepath="$PROJECT_DIR$/.idea/TradeRica.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TradericaProject/TradericaWebParent/TradericaBackend/TradericaBackend.iml" filepath="$PROJECT_DIR$/TradericaProject/TradericaWebParent/TradericaBackend/TradericaBackend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TradericaProject/TradericaCommon/TradericaCommon.iml" filepath="$PROJECT_DIR$/TradericaProject/TradericaCommon/TradericaCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TradericaProject/TradericaWebParent/TradericaFrontend/TradericaFrontend.iml" filepath="$PROJECT_DIR$/TradericaProject/TradericaWebParent/TradericaFrontend/TradericaFrontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TradericaProject/TradericaProject.iml" filepath="$PROJECT_DIR$/TradericaProject/TradericaProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TradericaProject/TradericaWebParent/TradericaWebParent.iml" filepath="$PROJECT_DIR$/TradericaProject/TradericaWebParent/TradericaWebParent.iml" />
+    </modules>
+  </component>
+</project>

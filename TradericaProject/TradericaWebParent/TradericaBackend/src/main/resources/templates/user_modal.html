@@ -1,0 +1,101 @@
+<form th:action="@{/users/save}" method="post"
+        th:object="${user}" onsubmit= "return checkEmailUnique(this);">
+  <div class="modal-header px-4">
+    <h5 class="modal-title" id="exampleModalCenterTitle">Add New User</h5>
+  </div>
+
+  <div class="modal-body px-4">
+    <div class="form-group row mb-6">
+      <label for="coverImage" class="col-sm-4 col-lg-2 col-form-label">User
+        Image</label>
+
+      <div class="col-sm-8 col-lg-10">
+        <div class="custom-file mb-1">
+          <input type="file" class="custom-file-input" id="coverImage"
+                 required>
+          <label class="custom-file-label" for="coverImage">Choose
+            file...</label>
+          <div class="invalid-feedback">Example invalid custom file feedback
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="firstName">First name</label>
+          <input type="text" class="form-control" th:field="*{firstname}" required minlength =2 maxlength=45 id="firstName">
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group">
+          <label for="lastName">Last name</label>
+          <input type="text" class="form-control" th:field="*{lastname}" required minlength =2 maxlength=45 id="lastName"  >
+        </div>
+      </div>
+
+
+
+      <div class="col-lg-6">
+        <div class="form-group mb-4">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" th:field="*{email}">
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group mb-4">
+          <label for="Birthday">Password</label>
+          <input type="password" class="form-control"th:field="*{password}" required minlength =8 maxlength=20 id="Birthday">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group mb-4">
+          <label>Roles:</label>
+          <br/>
+          <th:block th:each="role: ${listRoles}">
+            <input class="form-check-input m-2" type="checkbox" th:field="*{roles}"
+            th:text="${role.name}"
+            th:value="${role.id}">
+            - <small>[[${role.description}]]</small>
+            <br/>
+          </th:block>
+
+         </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="form-group mb-4">
+          <label for="Birthday">Enable:</label>
+          <input type="checkbox" th:field="*{enabled}">
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="modal-footer px-4">
+      <button type="button" class="btn btn-secondary btn-pill"
+              data-bs-dismiss="modal">Cancel</button>
+      <input type="submit" value="Save" class="btn btn-primary btn-pill">
+    </div>
+  </div>
+
+
+
+
+</form>
+<!--<script>-->
+<!--  function checkEmailUnique(form){-->
+<!--    url = "[[@{/users/check_email}]]";-->
+<!--    userEmail = $("#email").val();-->
+<!--    csrfValue = $("input[name='_csrf']").val();-->
+<!--    params = {email: userEmail, _csrf: csrfValue};-->
+<!--    $.post(url, params, function (response){-->
+<!--      alert("response form server: "+response);-->
+<!--    }-->
+<!--    return false;-->
+<!--  }-->
+<!--</script>-->
